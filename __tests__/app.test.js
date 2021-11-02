@@ -43,4 +43,32 @@ describe('cat CRUD API', () => {
 
     expect(res.body).toEqual(expect.arrayContaining([winnie, daisy, skeeter]));
   });
+
+  it('gets a cat by id, then updates it and saves it again', async () => {
+    const cat = { name: 'winnie', age: 8, weight: '8lbs' };
+    //creates cat ojbect
+    const db = new SimpleDb(rootDir);
+    // creates new instance of simpledb
+    await db.save(cat);
+    // saves cat object in new Db
+    const changedCat = { name: 'winifred', age: 7, weight: '18lbs', id: cat.id };
+    await db.update(changedCat);
+    const newCat = await request(app).get(`/cats/${changedCat.id}`);
+    expect(newCat.body).toEqual(changedCat);
+  });
+  
+  it('gets a cat by id then deletes it', async () => {
+    const cat = { name: 'winnie', age: 8, weight: '8lbs' };
+    const db = new SimpleDb(rootDir);
+    await db.save(cat);
+    console.log('line 64', cat);
+    // logging so that cat object is proven to exist in db
+    await db.delete(cat.id);
+    const res = await request(app).get(`/cats/${cat.id}`);
+    const actual = res.body;
+    console.log('line 69', actual);
+    // logging so that you can see actual === null and cat is no longer in db
+    expect(actual).not.toBe(cat);
+  });
+
 });
