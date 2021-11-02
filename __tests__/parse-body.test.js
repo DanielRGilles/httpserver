@@ -18,7 +18,7 @@ it('throws if content-type is not application/json', async () => {
   try {
     await parseBody(req);
   } catch (e) {
-    expect(e).toEqual('Content-Type must be application/json');
+    expect(e).toEqual('Content-type must be application/json');
   }
 });
 

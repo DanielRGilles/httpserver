@@ -61,7 +61,8 @@ describe('cat CRUD API', () => {
     const cat = { name: 'winnie', age: 8, weight: '8lbs' };
     const db = new SimpleDb(rootDir);
     await db.save(cat);
-    console.log('line 64', cat);
+    const savedCat = await db.get(cat.id);
+    console.log('line 65', await savedCat);
     // logging so that cat object is proven to exist in db
     await db.delete(cat.id);
     const res = await request(app).get(`/cats/${cat.id}`);
