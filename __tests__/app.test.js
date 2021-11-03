@@ -62,7 +62,7 @@ describe('cat CRUD API', () => {
     const db = new SimpleDb(rootDir);
     await db.save(cat);
     const savedCat = await db.get(cat.id);
-    console.log('line 65', await savedCat);
+    console.log('line 65', savedCat);
     // logging so that cat object is proven to exist in db
     await db.delete(cat.id);
     const res = await request(app).get(`/cats/${cat.id}`);
